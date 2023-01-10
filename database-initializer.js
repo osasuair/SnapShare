@@ -1,13 +1,14 @@
 const fs = require("fs")
 let mongo = require('mongodb');
 let MongoClient = mongo.MongoClient;
+let config = JSON.parse(fs.readFileSync("config.json"));
 
 let users = JSON.parse(fs.readFileSync("db-init/users.json"));
 let artwork = JSON.parse(fs.readFileSync("db-init/gallery.json"));
 
 
 // Connect to client and clear all old files in artwork and users collections, then initialize the two collections with the hardcoded objects
-MongoClient.connect("mongodb://127.0.0.1:27017/", { useNewUrlParser: true }, function(err, client) {
+MongoClient.connect(config.mongo_uri, { useNewUrlParser: true }, function(err, client) {
     if(err) throw err;
 
     let userArt = client.db('userArt');

@@ -1,10 +1,10 @@
 // Name Maybe ArtZy
 // Theme Material Dark maybe with mainly teal accent
-
+const fs = require("fs")
 const express = require('express');
 const session = require('express-session');
 const logger = require("morgan");
-const config = require("./config.js");
+let config = JSON.parse(fs.readFileSync("config.json"));
 
 //Database variables
 let mongo = require('mongodb');
