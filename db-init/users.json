@@ -1,0 +1,102 @@
+[{
+  "username": "ArtistDemo",
+  "password": "pass",
+  "following": [],
+  "notifs": [
+    {
+      "id": "16704577812870.0773842495127468",
+      "notification": "New Follower: user2"
+    }
+  ],
+  "courses": [],
+  "artInteracted": {
+    "review": [],
+    "liked": []
+  },
+  "artist": {
+    "valid": true,
+    "followed": [
+      "user2"
+    ],
+    "courses": [
+      {
+        "id": "12312312312.11231231",
+        "name": "Test Course",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus consectetur, dolor at ullamcorper varius, lorem arcu pharetra sem, ac molestie massa risus sit amet nisl.",
+        "author": "ArtistDemo",
+        "enrolled": [
+          "user2"
+        ]
+      }
+    ]
+  }
+},{
+  "username": "user2",
+  "password": "pass2",
+  "following": [
+    "ArtistDemo"
+  ],
+  "notifs": [],
+  "courses": [
+    {
+      "id": "12312312312.11231231",
+      "name": "Test Course",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus consectetur, dolor at ullamcorper varius, lorem arcu pharetra sem, ac molestie massa risus sit amet nisl.",
+      "author": "ArtistDemo"
+    }
+  ],
+  "artInteracted": {
+    "review": [],
+    "liked": []
+  },
+  "artist": {
+    "valid": false,
+    "followed": [],
+    "courses": []
+  }
+},{
+  "username": "Vincent Van Gogh",
+  "password": "pass",
+  "following": [],
+  "notifs": [],
+  "artInteracted": {
+    "review": [],
+    "liked": []
+  },
+  "courses": [],
+  "artist": {
+    "valid": true,
+    "followed": [],
+    "courses": []
+  }
+},{
+  "username": "Brodie",
+  "password": "pass",
+  "following": [],
+  "notifs": [],
+  "artInteracted": {
+    "review": [],
+    "liked": []
+  },
+  "courses": [],
+  "artist": {
+    "valid": true,
+    "followed": [],
+    "courses": []
+  }
+},{
+  "username": "Madie Hamilton",
+  "password": "pass",
+  "following": [],
+  "notifs": [],
+  "artInteracted": {
+    "review": [],
+    "liked": []
+  },
+  "courses": [],
+  "artist": {
+    "valid": true,
+    "followed": [],
+    "courses": []
+  }
+}]

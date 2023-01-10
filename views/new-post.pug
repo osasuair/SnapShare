@@ -1,0 +1,70 @@
+doctype html
+html(lang="en" class="h-100")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title New Post
+        link(rel="stylesheet", href="/css/bootstrap.min.css")
+        style.
+            form-group{margin-bottom: 1rem}
+
+
+    body(class="text-white h-100", style="background-color:#04161c; min-width: 450px;" onload="init()")
+        include includes/navbar.pug
+        -let rem = "35rem"
+        if(error)
+            div(class="alert alert-danger mb-0" role="alert").
+                    #[strong= "ERROR: "] #{error}
+            - rem = "45rem" 
+        div(class="alert alert-primary mb-5" role="alert").
+            Fill all required fields to create #[strong NEW] Post
+        
+        div(class="container", style="height: calc(100% - " + rem + ");")
+            div(class="row h-100 d-flex align-items-center") 
+                div(class="col-8 h-50 mb-2 mx-auto" style="min-width: 450px")
+                    div(class="card d-flex flex-column h-auto bg-dark" style="min-height: 450px;")
+                        div(class="card-header") 
+                            h1(class="card-title text-center mt-3 mb-3") New Post!
+                        div(class="card-body" style="background-color: #252B2C;")
+                            form#form(class="d-flex flex-column" action="/feed/art/post", method="POST" novalidate)
+                                div(class="mb-3 row") 
+                                    label(for="name", class="col-md-2 col-form-label") Artwork Name
+                                    div(class="col-md-10")
+                                        input(type="text", class="form-control", name="name", id="name" required)
+                                        div(class="valid-feedback") Looks good! 
+                                        div(class="invalid-feedback") Please Enter a Name!
+                                div(class="mb-3 row") 
+                                    label(for="category", class="col-md-2 col-form-label") Category
+                                    div(class="col-md-10")
+                                        input(type="text", class="form-control", name="category", id="category" required)
+                                        div(class="valid-feedback") Looks good! 
+                                        div(class="invalid-feedback") Please Enter a Category!
+                                div(class="mb-3 row")
+                                    label(for="description" class="col-md-2 col-form-label") Description
+                                    div(class="col-md-10")
+                                        textarea(class="form-control" id="description" name="description" rows="3")
+                                div(class="mb-3 row") 
+                                    label(for="date", class="col-md-2 col-form-label") Date
+                                    div(class="col-md-10")
+                                        input(type="date", class="form-control", name="date", id="date")
+                                        div(class="valid-feedback") Looks good! 
+                                        div(class="invalid-feedback") Invalid Date!
+                                div(class="mb-3 row") 
+                                    label(for="link", class="col-md-2 col-form-label") Link to Post
+                                    div(class="col-md-10")
+                                        div(class="input-group mb-3")
+                                            span(class="input-group-text" id="basic-addon1") @
+                                            input(type="url", class="form-control", name="link", id="link" required)
+                                            div(class="valid-feedback") Looks good! 
+                                            div(class="invalid-feedback").
+                                                Invalid Link - make sure to include the entire link including what comes before the "//"!
+                                button(type="submit" class="btn btn-success mt-3") Create Post
+        script(src="/js/bootstrap.bundle.min.js") 
+        script(src="/post-client.js")
+        script(src="/notifs-client.js") 
+
+
+
+
+//- Form layout  https://getbootstrap.com/docs/4.0/components/forms/?#form-groups

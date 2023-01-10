@@ -1,0 +1,186 @@
+doctype html
+html(lang="en" class="h-100")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Profile
+        link(rel="stylesheet", href="/css/bootstrap.min.css")
+        //- Css for dark theme
+        style(type="text/css").
+            .accordion {
+                --bs-accordion-border-color: #252B2C;
+                --bs-accordion-bg: var(--bs-dark);
+                --bs-accordion-btn-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23FFFFFF'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+                --bs-accordion-border-width: 0.5px;
+            }
+            .accordion-button {
+                color: white;
+                background-color: var(--bs-secondary);
+            }
+            .accordion-button:not(.collapsed) {
+                color: white;
+                background-color: var(--bs-gray-dark);
+            }
+            .accordion-button:focus {
+                box-shadow: none;
+            }
+            .list-group-item{
+                background-color: var(--bs-secondary);
+                color: white;
+            }
+            a{
+                color: white;
+                text-decoration: none;
+            }
+            a:hover {
+                color: var(--bs-gray-500);
+            }
+
+    body(class="text-white h-100", style="background-color:#04161c; min-width: 350px;")
+        include includes/navbar.pug 
+
+        div(class="container" style="height: calc(100% - 4rem);")
+            div(class="row h-100 d-flex") 
+                div(class="col-8 mb-2 mx-auto align-self-center" style="min-width: 350px; height: 80%!important")
+                    div(class="card d-flex flex-column h-100 bg-dark" style="min-height: 350px;")
+                        div(class="card-header") 
+                            div(class="list-group")
+                                div(class="list-group-item")
+                                    div(class="row align-items-center")
+                                        div(class="col")
+                                            p(class="mb-0") #[strong Username]
+                                        div(class="col-auto")
+                                            p(class="mb-0")= user.username
+                                div(class="list-group-item")
+                                    div(class="row align-items-center")
+                                        div(class="col")
+                                            p(class="mb-0") #[strong Artist Account]
+                                        div(class="col-auto")
+                                            div(class="form-check form-switch")
+                                                if(user.artist.valid)
+                                                    input#valid(class="form-check-input lg", style="transform: scale(1.2);", type="checkbox", onchange="switchArtist()", checked)
+                                                else 
+                                                    input#valid(class="form-check-input lg", style="transform: scale(1.2);", type="checkbox", onchange="switchArtist()")
+                        div(class="card-body d-flex flex-column h-100 overflow-auto mb-3" style="background-color: #252B2C;")
+                            div(class="accordion bg-dark", id="profileOptions")
+                                div(class="accordion-item")
+                                    h2(class="accordion-header" id="enrollHeading")
+                                        button(class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#enrollCollapse" aria-expanded="false" aria-controls="enrollCollapse") Courses Enrolled In
+                                    div(id="enrollCollapse" class="accordion-collapse collapse" aria-labelledby="enrollHeading" data-bs-parent="#profileOptions")
+                                        div(class="accordion-body")
+                                            if(user.courses.length > 0)
+                                                div(class="list-group mb-5 shadow")
+                                                    each course in user.courses
+                                                        div(class="list-group-item")
+                                                            div(class="row align-items-center")
+                                                                div(class="col")
+                                                                    p(class="mb-0") #[strong #{course.name}]: #{course.description}
+                                                                    p(class="mb-0 text-light")= "Artist: " + course.author
+                                                                div(class="col-auto")
+                                                                    div(class="custom-control custom-switch")
+                                                                        button(type="button", onclick="joinCourse(\"" + course.author+ "\",\"" + course.id+  "\")", class="btn btn-primary btn-danger") Drop Course
+
+                                div(class="accordion-item")
+                                    h2(class="accordion-header" id="followingHeading")
+                                        button(class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#followingCollapse" aria-expanded="false" aria-controls="followingCollapse") Following
+                                    div(id="followingCollapse" class="accordion-collapse collapse" aria-labelledby="followingHeading" data-bs-parent="#profileOptions")
+                                        div(class="accordion-body")
+                                            if(user.following.length > 0)
+                                                div(class="list-group mb-5 shadow")
+                                                    each follow in user.following
+                                                        div(class="list-group-item")
+                                                            div(class="row align-items-center")
+                                                                div(class="col")
+                                                                    a(href=`/feed/user/artist/${follow}` class="mb-0") #[strong #{follow}]
+                                                                div(class="col-auto")
+                                                                    div(class="custom-control custom-switch")
+                                                                        button(type="button", onclick="follow(\"" + follow+ "\")", class="btn btn-danger") Unfollow
+                                div(class="accordion-item")
+                                    h2(class="accordion-header" id="revHeading")
+                                        button(class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#revCollapse" aria-expanded="false" aria-controls="revCollapse") Reviews
+                                    div(id="revCollapse" class="accordion-collapse collapse" aria-labelledby="revHeading" data-bs-parent="#profileOptions")
+                                        div#reviews(class="accordion-body")
+                                            if(reviews.length > 0)
+                                                div(class="list-group mb-5 shadow")
+                                                    each art in reviews
+                                                        div(class="list-group-item")
+                                                            div(class="row align-items-center")
+                                                                div(class="col")
+                                                                    - let desc = art.description.slice(0, 100) + (art.description.length > 100 ? "..." : "");
+                                                                    p(class="mb-0") #[strong #{art.name}]: #{desc}
+                                                                    p(class="text-light mb-0")= "Artist: " + art.artist
+                                                                div(class="col-auto")
+                                                                    div(class="custom-control custom-switch")
+                                                                        a(href="/feed/art/"+ art._id, style="text-decoration:none")
+                                                                            button(type="button", class="btn btn-success") Go to Post
+                                div(class="accordion-item")
+                                    h2(class="accordion-header" id="likesHeading")
+                                        button(class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#likesCollapse" aria-expanded="false" aria-controls="likesCollapse") Likes
+                                    div(id="likesCollapse" class="accordion-collapse collapse" aria-labelledby="likesHeading" data-bs-parent="#profileOptions")
+                                        div#likes(class="accordion-body")
+                                            if(likes.length > 0)
+                                                div(class="list-group mb-5 shadow")
+                                                    each art in likes
+                                                        div(class="list-group-item")
+                                                            div(class="row align-items-center")
+                                                                div(class="col")
+                                                                    - let desc = art.description.slice(0, 100) + (art.description.length > 100 ? "..." : "");
+                                                                    p(class="mb-0") #[strong #{art.name}]: #{desc}
+                                                                    p(class="text-light mb-0")= "Artist: " + art.artist
+                                                                div(class="col-auto")
+                                                                    div(class="custom-control custom-switch")
+                                                                        a(href="/feed/art/"+ art._id, style="text-decoration:none")
+                                                                            button(type="button", class="btn btn-success") Go to Post
+
+                                if(user.artist.valid)
+                                    div(class="accordion-item")
+                                        h2(class="accordion-header" id="followedHeading")
+                                            button(class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#followedCollapse" aria-expanded="false" aria-controls="followedCollapse") Followed By
+                                        div(id="followedCollapse" class="accordion-collapse collapse" aria-labelledby="followedHeading" data-bs-parent="#profileOptions")
+                                            div(class="accordion-body")
+                                                if(user.artist.followed.length > 0)
+                                                    div(class="list-group mb-5 shadow")
+                                                        each follow in user.artist.followed
+                                                            div(class="list-group-item")
+                                                                div(class="row align-items-center")
+                                                                    div(class="col")
+                                                                        p(class="mb-0") #[strong #{follow}]
+                                                                    div(class="col-auto")
+                                                                        div(class="custom-control custom-switch")
+                                                                            button(type="button", onclick="remFollower(\"" + follow+ "\")", class="btn btn-danger") Remove Follower
+                                    div(class="accordion-item")
+                                        h2(class="accordion-header" id="courseHeading")
+                                            button(class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#courseCollapse" aria-expanded="false" aria-controls="courseCollapse") Courses Created
+                                        div(id="courseCollapse" class="accordion-collapse collapse" aria-labelledby="courseHeading" data-bs-parent="#profileOptions")
+                                            div(class="accordion-body")
+                                                div(class="list-group mb-5 shadow")
+                                                    each course in user.artist.courses
+                                                        div(class="list-group-item")
+                                                            div(class="row align-items-center")
+                                                                div(class="col")
+                                                                    p(class="mb-0") #[strong #{course.name}]: #{course.description}
+                                                                    - let enrolled = course.enrolled.toString().replace(",", ", ");
+                                                                    p(class="mb-0")= "Users Enrolled: "
+                                                                        - let length = course.enrolled.length 
+                                                                        - let i = 0
+                                                                        while (i+1) < length 
+                                                                            a(href=`/feed/user/artist/${course.enrolled[i]}`)= course.enrolled[i] + ", "
+                                                                            - i++
+                                                                        if (length>0)
+                                                                            a(href=`/feed/user/artist/${course.enrolled[i]}`)= course.enrolled[i]
+                                                                div(class="col-auto")
+                                                                    div(class="custom-control custom-switch")
+                                                                        button(type="button", onclick="delCourse(\""+course.id+"\")", class="btn btn-danger") Delete Course
+                                    div(class="accordion-item")
+                                        a(class="accordion-header" href="/feed/user/profile/posts" style="text-decoration:none" id="courseHeading")
+                                                button(class="accordion-button collapsed" type="button" aria-expanded="false" style="--bs-accordion-btn-icon: none") Edit Posts
+
+        script(src="/js/bootstrap.bundle.min.js") 
+        script(src="/user-client.js") 
+        script(src="/post-client.js")
+        script(src="/notifs-client.js") 
+
+//- Accordion style - https://getbootstrap.com/docs/5.0/components/accordion/
+//- Artist Switch -   https://getbootstrap.com/docs/5.0/forms/checks-radios/
+//- Svg White Arrow - Bootstrap

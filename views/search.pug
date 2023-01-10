@@ -1,0 +1,63 @@
+doctype html
+html(lang="en" class="h-100")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Search
+        link(rel="stylesheet", href="/css/bootstrap.min.css")
+        style.
+            form-group{margin-bottom: 1rem}
+            
+    body(class="text-white h-100", style="background-color:#04161c; min-width: 450px;")
+        include includes/navbar.pug
+        div(class="alert alert-primary text-center mb-0" role="alert").
+            To Search, fill in any of the options below and hit the Search Button to get the Results.
+
+        div(class="container" style="height: calc(100% - 10rem);")
+            div(class="row h-100 d-flex align-items-center") 
+                div(class="col-8 h-75 mb-2 mx-auto" style="min-width: 450px")
+                    div(class="card d-flex flex-column h-100 bg-dark" style="min-height: 450px;")
+                        div(class="card-header") 
+                            h1(class="card-title text-center mt-3 mb-3") Search
+                        div(class="card-body" style="background-color: #252B2C;")
+                            form(class="d-flex flex-column" action="/feed/search/results", method="get")
+                                div(class="mb-3 row")
+                                    label(for="artist" class="col-md-2 col-form-label") Artist Name
+                                    div(class="col-md-10")
+                                        input(type="text" class="form-control" id="artist" name="artist" aria-describedby="artistHelp")
+                                        small#artistHelp(class="form-text text-muted") Search the exact Artist username or part of it.
+                                div(class="mb-3 row")
+                                    label(for="artworkName" class="col-md-2 col-form-label") Artwork Name
+                                    div(class="col-md-10")
+                                        input(type="text" class="form-control" id="artworkName" name="name" aria-describedby="nameHelp")
+                                        small#nameHelp(class="form-text text-muted") Search the exact Artwork name or part of it.
+                                div(class="mb-3 row")
+                                    label(for="category" class="col-md-2 col-form-label") Artwork Category
+                                    div(class="col-md-10")
+                                        select(class="form-select" aria-describedby="categoryHelp" name="category" id="category")
+                                            option(value="") Select a Category
+                                            each category in categories
+                                                option= category
+                                        small#categoryHelp(class="form-text text-muted") Select a Category.
+                                div(class="mb-3 row")
+                                    label(for="era" class="col-md-2 col-form-label") Artwork Era
+                                    div(class="col-md-10")
+                                        select(class="form-select" aria-describedby="eraHelp" name="era" id="era")
+                                            option(value="") Select an Era
+                                            each era in eras
+                                                option= era
+                                        small#eraHelp(class="form-text text-muted")  Select an Era.
+                                div(class="mb-3 row")
+                                    label(for="description" class="col-md-2 col-form-label") Description
+                                    div(class="col-md-10")
+                                        textarea(class="form-control" id="description" name="description" aria-describedby="descriptionHelp" rows="3")
+                                        small#descriptionHelp(class="form-text text-muted") Search the exact Description or part of it.
+                                button(type="submit" class="btn btn-success btn-lg px-5") Search
+
+        script(src="/js/bootstrap.bundle.min.js")
+        script(src="/notifs-client.js") 
+
+
+
+//- Form layout  https://getbootstrap.com/docs/4.0/components/forms/?#form-groups

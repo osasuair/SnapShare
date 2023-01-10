@@ -1,0 +1,19 @@
+div(class="card-body p-5 text-center")
+    h6(class="text-end") New to Website? #[a(href="./register" class="text-white-50 fw-bold") Register] 
+    div(class="mb-md-5 mt-md-4 pb-5")
+        h2(class="fw-bold mb-2") Login
+        p(class="text-white-50 mb-5") Please enter your username and password!
+
+        form#form(class="form needs-validation", action="./login", method="post" novalidate)
+            div(class="form-floating text-secondary mb-4")
+                input(type="text" class="form-control" id="username" name="username", placeholder="username", required)   
+                label(for="username") Username
+                div(class="valid-feedback font-weight-bold") Looks good! 
+                div(class="invalid-feedback font-weight-bold") Please Enter a Username!
+            div(class="form-floating text-secondary mb-5")
+                input(type="password", class="form-control", id="password" name="password", placeholder="password", required)
+                label(for="password") Password: 
+                div(class="valid-feedback font-weight-bold") Looks good! 
+                div(class="invalid-feedback font-weight-bold") Please Enter a Password!
+            button(type="submit" class="btn btn-success btn-lg px-5 align-self-end") Log In 
+

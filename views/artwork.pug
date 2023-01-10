@@ -1,0 +1,103 @@
+doctype html
+html(lang="en", class="h-100")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title= artwork.name
+        link(rel="stylesheet", href="/css/bootstrap.min.css")
+        style(type="text/css").
+            a{
+                text-decoration: none;
+            } 
+            #artistName{
+                color: white;
+            }
+            #artistName:hover {
+                color: var(--bs-gray-500);
+            }
+            .check{
+                display: none;
+            }
+            .check + label {
+                background: url('/images/thumbs-up.png') no-repeat;
+                height: 20px;
+                width: 20px;
+                display:inline-block;
+                padding: 0 0 0 0px;
+            }
+            .check:checked + label {
+                background: url("/images/thumbs-up-checked.png") no-repeat;
+                height: 20px;
+                width: 20px;
+                display:inline-block;
+                padding: 0 0 0 0px;
+            }
+
+    body(class="text-white h-100", style="background-color:#04161c; min-width: 450px;", onload=`initArt(${owner})`) 
+        include includes/navbar.pug
+
+        div(class="container" style="height: calc(100% - 5rem);")
+            div(class="row h-100 d-flex align-items-center")
+                div(class="col-5 h-75 mb-2 mx-auto" style="min-width: 450px")
+                    div(class="card d-flex flex-column h-100 bg-dark" style="min-height: 422.400px;")
+                        div(class="card-header") 
+                            h5(class="card-title text-center mt-1")
+                                a#artistName(href=`/feed/user/artist/${artwork.artist}`)= artwork.artist
+                        div(class="card-img" style="height: calc(100% - 7rem); background-color: #2B2C32;")
+                            img#img(src=`${artwork.image}`, alt=`${artwork.name}`,style="height:100%; width:100%; object-fit: contain;")
+                        div(class="card-footer")
+                            div(class="list-group")
+                                div(class="list-group-item bg-secondary text-white")
+                                    div#likes(class="row align-items-center")
+                                        div(class="col")
+                                            p#likeText(class="mb-0")= "Liked by " + artwork.likes.length
+                                        div(class="col-auto") 
+                                            if(owner)
+                                                input#like(class="check" type="checkbox" name="like" disabled)
+                                                label(for="like")
+                                            else 
+                                                if (artwork.likes.includes(user))
+                                                    input#like(class="check", type="checkbox", name="like", onchange="like()" checked)
+                                                    label(for="like")
+                                                else
+                                                    input#like(class="check", type="checkbox", name="like", onchange="like()")
+                                                    label(for="like")
+
+                div(class="col h-75 mb-2 mx-auto" style="min-width: 450px")
+                    div(class="card h-100 bg-dark" style="min-height: 422.400px")
+                        div(class="card-header d-flex flex-column text-center mb-2 overflow-auto" style="height: 35%; min-height: 35%")
+                            h3#name(class="card-title text-wrap")= artwork.name
+                            div#tags(class="text-light mb-0")
+                                p.
+                                    Category: #[a(href=`/feed/search/results?category=${artwork.category}`)= artwork.category],
+                                    Era: #[a(href=`/feed/search/results?era=${artwork.era}`)= artwork.era],
+                                    Year: #{artwork.year}
+                            - let d = new Date(artwork.time)
+                            - let date = `Date: ${d.toLocaleString('default', { month: 'long' })} ${d.getDate()}, ${d.getFullYear()}`;
+                            p#datePosted(class="text-light")= date
+                            p#description(class="mt-auto mx-auto text-break")= artwork.description
+                        div#review(class="card-body d-flex flex-column justify-content-end mh-100 overflow-auto")
+                            #reviews(class="list-group mb-1 h-100")
+                                - let i = 0
+                                each elm in artwork.reviews
+                                    div(id=""+elm[0]+ "-"+ i, class="list-group-item bg-secondary text-white")
+                                        div(class="row align-items-center")
+                                            div(class="col")
+                                                p(class="mb-0")= elm[0] + " - "+ elm[1]
+                                            if (!owner && elm[3])
+                                                div(class="col-auto")
+                                                    button(class="btn btn-danger" onclick="delReview(this, '"+ elm[2]+ "')") Delete
+                                    - i++
+                        div(class="card-footer")
+                            div(class="input-group")
+                                if(owner)
+                                    input#newReview(type="text" class="form-control" name="newReview" placeholder="Post Review" aria-label="review" aria-describedby="reviewButton" disabled)
+                                    button#reviewButton(class="btn btn-secondary" type="submit", onclick="postRev()" disabled) Post
+                                else
+                                    input#newReview(type="text" class="form-control" name="newReview" placeholder="Post Review" aria-label="review" aria-describedby="reviewButton")
+                                    button#reviewButton(class="btn btn-secondary" type="submit", onclick="postRev()" disabled) Post
+
+        script(src="/js/bootstrap.bundle.min.js") 
+        script(src="/feed-client.js") 
+        script(src="/notifs-client.js") 

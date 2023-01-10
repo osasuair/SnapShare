@@ -1,0 +1,31 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title= title
+        link(rel="stylesheet", href="/css/bootstrap.min.css")
+        style(type="text/css").
+            a {
+                text-decoration: none;
+            }
+
+    body(class="vh-100 text-white" style="background-color:#04161c;")
+        div(class="container py-5 h-100")
+            div(class="row d-flex justify-content-center align-items-center h-100")
+                if error
+                    div(class="alert alert-danger fixed-top text-center", role="alert") #[strong= (errorName? errorName : "ERROR") + ": "] #{error}
+                div(class="col-8 col-md-8 col-lg-9 col-xl-9") 
+                    div(class="card bg-dark" style="border-radius: 2rem")
+                        if(file == "login")
+                            include account/login
+                        if(file == "register")
+                            include account/register
+
+    script(src="/js/bootstrap.bundle.min.js") 
+    script(src="/validator.js")
+
+    //- Login Bootstrap (open source) - https://mdbootstrap.com/docs/standard/extended/login/
+    //- Floating Labels for form - https://getbootstrap.com/docs/5.2/forms/floating-labels/
+    //- Validation - 

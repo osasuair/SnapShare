@@ -1,0 +1,49 @@
+html(lang="en" class="h-100")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title New Course
+        link(rel="stylesheet", href="/css/bootstrap.min.css")
+        style.
+            form-group{margin-bottom: 1rem}
+
+
+    body(class="text-white h-100", style="background-color:#04161c; min-width: 300px;" onload="init()")
+        include includes/navbar.pug
+        -let rem = "35rem"
+        if(error)
+            div(class="alert alert-danger mb-0" role="alert").
+                    #[strong= "ERROR: "] #{error}
+            - rem = "45rem" 
+        div(class="alert alert-primary text-center" role="alert").
+            Fill all fields to create #[strong NEW] Course
+
+        div(class="container" style="height: calc(100% - " + rem + ");")
+            div(class="row h-100 d-flex align-items-center") 
+                div(class="col-8 h-25 mx-auto" style="min-width: 300px")
+                    div(class="card d-flex flex-column h-100 bg-dark" style="min-height: 300px;")
+                        div(class="card-header") 
+                            h1(class="card-title text-center mt-3 mb-3") New Course!
+                        div(class="card-body pt-4" style="background-color: #252B2C;")
+                            form#form(class="d-flex flex-column" action="/feed/user/course", method="POST" novalidate)                                   
+                                div(class="mb-3 row") 
+                                    label(for="title", class="col-md-2 col-form-label") Title
+                                    div(class="col-md-10")
+                                        input(type="text", class="form-control", name="title", id="title" required)
+                                        div(class="valid-feedback") Looks good! 
+                                        div(class="invalid-feedback") Please Enter a Title!
+                                div(class="mb-3 row")
+                                    label(for="description" class="col-md-2 col-form-label") Description
+                                    div(class="col-md-10")
+                                        textarea(class="form-control mb-3" id="description" name="description" rows="5" required)
+                                        div(class="valid-feedback") Looks good! 
+                                        div(class="invalid-feedback") Please Enter a Description!
+                                button(type="submit" class="btn btn-primary mt-3") Create Course
+
+        script(src="/js/bootstrap.bundle.min.js") 
+        script(src="/post-client.js")
+        script(src="/notifs-client.js") 
+
+
+//- Form layout  https://getbootstrap.com/docs/4.0/components/forms/?#form-groups

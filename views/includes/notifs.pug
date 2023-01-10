@@ -1,0 +1,10 @@
+ul(class="dropdown-menu dropdown-menu-dark", aria-labelledby="notifDrop" style="min-width: 25rem")
+    each notif in notifs
+        -let id = 0
+        div(class="dropdown-item-text")
+            div(class="row justify-content")
+                div(class="col-9")
+                    p(class="mb-0 text-wrap")= notif.notification
+                span(class="col-auto")
+                    button#id(class="btn btn-danger float-right", onclick=`delNotif(this, "${notif.id}")`, type="button") Delete
+        -id++

@@ -1,0 +1,141 @@
+doctype html
+html(lang="en" class="h-100")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title= theArtist.username
+        link(rel="stylesheet", href="/css/bootstrap.min.css")
+        //- Css for dark theme
+        style(type="text/css").
+            .accordion {
+                --bs-accordion-border-color: #252B2C;
+                --bs-accordion-bg: var(--bs-dark);
+                --bs-accordion-btn-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23FFFFFF'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+                --bs-accordion-border-width: 0.5px;
+            }
+            .accordion-button {
+                color: white;
+                background-color: var(--bs-secondary);
+            }
+            .accordion-button:not(.collapsed) {
+                color: white;
+                background-color: var(--bs-gray-dark);
+            }
+            .accordion-button:focus {
+                box-shadow: none;
+            }
+            .list-group-item{
+                background-color: var(--bs-secondary);
+                color: white;
+            }
+            a{
+                color: white;
+                text-decoration: none;
+            }
+            a:hover {
+                color: var(--bs-gray-500);
+            }
+
+    body(class="text-white h-100", style="background-color:#04161c; min-width: 400px;")
+        include includes/navbar.pug 
+
+        div(class="container" style="height: calc(100% - 4rem);")
+            div(class="row h-100 d-flex") 
+                div(class="col-8 mb-2 mx-auto align-self-center" style="min-width: 350px; height: 70%!important")
+                    div(class="card d-flex flex-column h-100 bg-dark" style="min-height: 350px;")
+                        div(class="card-header")
+                            h1(class="card-title text-center mt-3 mb-3")= theArtist.username
+                        div(class="card-body d-flex flex-column h-100 overflow-auto mb-3" style="background-color: #252B2C;")
+                            .container
+                                div(class="list-group shadow")
+                                    div(class="list-group-item")
+                                        div(class="row align-items-center")
+                                            div(class="col")
+                                                p(class="mb-0") #[strong Follow]:
+                                            if (!owner && theArtist.artist.valid)
+                                                div(class="col-auto")
+                                                    div(class="custom-control custom-switch")
+                                                        - let follow = info.following ? "Unfollow" : "Follow" 
+                                                        button(type="button", onclick="follow(\""+ theArtist.username+ "\")", class="btn btn-danger")= follow
+                                div(class="accordion" id="accord")
+                                    if(theArtist.artist.valid)
+                                        div(class="accordion-item")
+                                            h2(class="accordion-header" id="courseHeader")
+                                                button(class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#courseCollapse" aria-expanded="true" aria-controls="courseCollapse") Courses by Artist
+                                            div(id="courseCollapse" class="accordion-collapse collapse" aria-labelledby="courseHeader" data-bs-parent="#accord")
+                                                div(class="accordion-body")
+                                                    if (theArtist.artist.courses.length > 0)
+                                                        div(class="list-group mb-5 shadow")
+                                                            each course in theArtist.artist.courses
+                                                                div(class="list-group-item")
+                                                                    div(class="row align-items-center")
+                                                                        div(class="col")
+                                                                            p(class="mb-0") #[strong #{course.name}]: #{course.description}
+                                                                            p(class="mb-0 text-light")= "Artist: " + course.author
+                                                                        if (!owner)
+                                                                            div(class="col-auto")
+                                                                                div(class="custom-control custom-switch")
+                                                                                    - let inCourse = info.courses.includes(course.id) ? "Drop Course" : "Join Course"
+                                                                                    button(type="button", onclick="joinCourse(\"" + course.author+ "\",\"" + course.id+  "\")", class="btn btn-primary")= inCourse
+
+                                        div(class="accordion-item")
+                                            h2(class="accordion-header" id="postHeader")
+                                                button(class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#postCollapse" aria-expanded="false" aria-controls="postCollapse") Posts by Artist
+                                            div(id="postCollapse" class="accordion-collapse collapse" aria-labelledby="postHeading" data-bs-parent="#accord")
+                                                div#posts(class="accordion-body")
+                                                    if(info.artwork.length > 0)
+                                                        div(class="list-group mb-5 shadow")
+                                                            each art in info.artwork
+                                                                div(class="list-group-item")
+                                                                    div(class="row align-items-center")
+                                                                        div(class="col")
+                                                                            - let desc = art.description.slice(0, 100) + (art.description.length > 100 ? "..." : "");
+                                                                            p(class="mb-0") #[strong #{art.name}]: #{desc}
+                                                                            p(class="text-muted mb-0")= art.artist
+                                                                        div(class="col-auto")
+                                                                            div(class="custom-control custom-switch")
+                                                                                a(href="/feed/art/"+ art._id)
+                                                                                    button(type="button", class="btn btn-success") Go to Post
+                                    div(class="accordion-item")
+                                        h2(class="accordion-header" id="revHeading")
+                                            button(class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#revCollapse" aria-expanded="false" aria-controls="revCollapse") Their Reviews
+                                        div(id="revCollapse" class="accordion-collapse collapse" aria-labelledby="revHeading" data-bs-parent="#profileOptions")
+                                            div#reviews(class="accordion-body")
+                                                if(reviews.length > 0)
+                                                    div(class="list-group mb-5 shadow")
+                                                        each art in reviews
+                                                            div(class="list-group-item")
+                                                                div(class="row align-items-center")
+                                                                    div(class="col")
+                                                                        - let desc = art.description.slice(0, 100) + (art.description.length > 100 ? "..." : "");
+                                                                        p(class="mb-0") #[strong #{art.name}]: #{desc}
+                                                                        p(class="text-light mb-0")= "Artist: " + art.artist
+                                                                    div(class="col-auto")
+                                                                        div(class="custom-control custom-switch")
+                                                                            a(href="/feed/art/"+ art._id, style="text-decoration:none")
+                                                                                button(type="button", class="btn btn-success") Go to Post
+                                    div(class="accordion-item")
+                                        h2(class="accordion-header" id="likesHeading")
+                                            button(class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#likesCollapse" aria-expanded="false" aria-controls="likesCollapse") Their Likes
+                                        div(id="likesCollapse" class="accordion-collapse collapse" aria-labelledby="likesHeading" data-bs-parent="#profileOptions")
+                                            div#likes(class="accordion-body")
+                                                if(likes.length > 0)
+                                                    div(class="list-group mb-5 shadow")
+                                                        each art in likes
+                                                            div(class="list-group-item")
+                                                                div(class="row align-items-center")
+                                                                    div(class="col")
+                                                                        - let desc = art.description.slice(0, 100) + (art.description.length > 100 ? "..." : "");
+                                                                        p(class="mb-0") #[strong #{art.name}]: #{desc}
+                                                                        p(class="text-light mb-0")= "Artist: " + art.artist
+                                                                    div(class="col-auto")
+                                                                        div(class="custom-control custom-switch")
+                                                                            a(href="/feed/art/"+ art._id, style="text-decoration:none")
+                                                                                button(type="button", class="btn btn-success") Go to Post
+        script(src="/js/bootstrap.bundle.min.js") 
+        script(src="/user-client.js") 
+        script(src="/notifs-client.js") 
+
+//- Accordion style - https://getbootstrap.com/docs/5.0/components/accordion/
+//- Svg White Arrow - Bootstrap sass variable (modified)
