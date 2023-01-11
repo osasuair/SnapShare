@@ -36,10 +36,9 @@ jobs:
         host: ${{secrets.AWS_VM_DNS}}
         username: ${{secrets.AWS_VM_USERNAME}}
         script: |
-          pm2 delete all
-          cd /var/app/artworkWebApp
+          cd var/app/artworkWebApp
           git pull
           npm install
-          pm2 start npm -- start
+          node ./server.js
           
 
