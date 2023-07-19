@@ -3,6 +3,7 @@
 ## Info
 - Author:          Paul Airuehia
 - Date:            December 8, 2022
+- Short Demo:      [Video Demo]
 
 ## Purpose         
 This application is built on [node.js] and [MongoDB] in the back end, while the Front-end uses [HTML5] and [CSS3]. 
@@ -64,3 +65,4 @@ node ./server.js
    [MongoDB]: <https://www.mongodb.com/>
    [JavaScript]: <https://developer.mozilla.org/en-US/docs/Web/JavaScript>
    [Bootstrap5]: <https://getbootstrap.com/>
+   [Video Demo]: <https://www.youtube.com/watch?v=7a3CIyNK8XA>
