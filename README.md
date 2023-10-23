@@ -1,19 +1,18 @@
-# Artwork Application
+# SnapShare
 > Social Media Platform
 ## Info
 - Author:          Paul Airuehia
 - Date:            December 8, 2022
-- Short Demo:      [Video Demo]
 
 ## Purpose         
-This application is built on [node.js] and [MongoDB] in the back end, while the Front-end uses [HTML5] and [CSS3]. 
-The Server-side predominantly uses [express] to host the server. The Client-side processing uses [JavaScript]. 
-The design is done mainly with [Bootstrap5].
+This application primarily uses [express] for the back-end and [node.js] to run the server. It also makes use of [MongoDB] for persistent data storage. 
+The front-end uses [HTML5], [CSS3], and [JavaScript]. 
+The UI design is done mainly with [Bootstrap5].
 
 This application is an artwork social media platform that can be used to post and interact with pictures and can be used 
 to host courses for other users. This application features two types of users, the users who can view and interact with 
 posts and those with additional posting capabilities called "artists". Interactions with posts are done by either 
-liking or leaving a review on a post. In addition, users can follow and unfollow any user that is an artist, and they
+liking or leaving a review on a post. In addition, users can follow and unfollow any user who is an artist, and they
 may also join any of their courses.
 
 ## Application Execution
@@ -26,10 +25,9 @@ This application requires these programs to run:
 ### Installation
 
 Start your MongoDB Database
-```sh
-mongod -dbpath="THE PATH TO YOUR DATABASE DIRECTORY"
-# You may use mongo's shell to view the database directory with this command, but you must have mongosh installed to path
-mongosh
+```
+Create a config.json and include an object with a single key called "mongo_uri"
+which contains your specific MongoDB URI
 ```
 
 Install the NPM dependencies and initialize the database to start the server.
@@ -40,9 +38,9 @@ node ./server.js
 ```
 
 ## More Info
-> This application is partially RESTful. It incorporates many RESTful concepts, such as the correct use of HTTP status 
+> This back-end for this application implements RESTful techniques where possible. Such as the correct use of HTTP status
 > codes and proper routing throughout the server. The server and client do not depend on each other. On the server,
-> modules such as morgan help decipher the requests sent throughout the server. When possible, most operations are 
+> modules such as Morgan help clarify the requests sent throughout the server. When possible, most operations are 
 > asynchronous, so the server can handle multiple users making changes simultaneously. The webpage uses Bootstrap's
 > dark theme and some added CSS to give the webpage a more modern dark-themed look, with inspiration from Google's 
 > Material Dark design for better user interaction.
@@ -65,4 +63,3 @@ node ./server.js
    [MongoDB]: <https://www.mongodb.com/>
    [JavaScript]: <https://developer.mozilla.org/en-US/docs/Web/JavaScript>
    [Bootstrap5]: <https://getbootstrap.com/>
-   [Video Demo]: <https://www.youtube.com/watch?v=7a3CIyNK8XA>
