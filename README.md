@@ -3,6 +3,7 @@
 ## Info
 - Author:          Paul Airuehia
 - Date:            December 8, 2022
+- Short Demo:      [Video]
 
 ## Purpose         
 This application primarily uses [express] for the back-end and [node.js] to run the server. It also makes use of [MongoDB] for persistent data storage. 
@@ -63,3 +64,4 @@ node ./server.js
    [MongoDB]: <https://www.mongodb.com/>
    [JavaScript]: <https://developer.mozilla.org/en-US/docs/Web/JavaScript>
    [Bootstrap5]: <https://getbootstrap.com/>
+   [Video]: <https://www.youtube.com/watch?v=7a3CIyNK8XA>
