@@ -1,5 +1,5 @@
 node_modules
+package-lock.json
 
 # MongoDB data files
-/config.json
-/database-initializer.js
+config.json
