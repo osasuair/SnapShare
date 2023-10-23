@@ -1,2 +1,5 @@
+node_modules
+
+# MongoDB data files
 /config.json
 /database-initializer.js

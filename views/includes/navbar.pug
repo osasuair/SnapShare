@@ -1,11 +1,12 @@
 nav(class="navbar navbar-expand-lg navbar-dark bg-dark")
-    div(class="container-fluid")
-        button(class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation")
+    div(class="container-fluid flex flex-row")
+        a(class="navbar-brand text-gray-hover active" href="/feed") SnapShare
+        button(class="navbar-toggler flex-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation")
             span(class="navbar-toggler-icon")
-        div(class="collapse navbar-collapse justify-content-center" id="navbarNav")
-            ul(class="navbar-nav")
+        div(class="collapse navbar-collapse justify-content-end" id="navbarNav")
+            ul(class="navbar-nav text-center")
                 li(class="nav-item dropdown")
-                    a(class="nav-link dropdown-toggle" id="notification" role="button" data-bs-toggle="dropdown" aria-expanded="false") Notifications
+                    a(class="nav-link dropdown-toggle active" id="notification" role="button" data-bs-toggle="dropdown" aria-expanded="false") Notifications
                     include ./notifs.pug
                 li(class="nav-item")
                     a(class="nav-link active" href="/feed") Feed
