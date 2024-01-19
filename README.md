@@ -43,8 +43,7 @@ node ./server.js
 > codes and proper routing throughout the server. The server and client do not depend on each other. On the server,
 > modules such as Morgan help clarify the requests sent throughout the server. When possible, most operations are 
 > asynchronous, so the server can handle multiple users making changes simultaneously. The webpage uses Bootstrap's
-> dark theme and some added CSS to give the webpage a more modern dark-themed look, with inspiration from Google's 
-> Material Dark design for better user interaction.
+> dark theme and some added CSS to give the webpage a more modern dark-themed look.
 
 ## Features
 - Artists can delete posts or courses
